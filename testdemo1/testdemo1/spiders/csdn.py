@@ -13,7 +13,7 @@ from testdemo1.items import Testdemo1Item
 	div[@class="mine"]
 '''
 
-class csdn(scrapy.Spider):
+class csdn(scrapy.spiders.Spider):
 
 	name = "csdn"
 	start_urls = [
@@ -21,24 +21,31 @@ class csdn(scrapy.Spider):
 	]
 
 	def parse(self,response):
-		print "=================================="
-		print  response.headers
-		print "=================================="
 
-		item = Testdemo1Item()
-		art =  response.xpath("//article")
-		item['title'] = art.xpath("//h1/text()").extract()
-		item['readNum'] = art.xpath("//button[@class='btn-noborder']/span/text()").extract()
-		item['content'] = art.xpath("//div[@id='article_content']/div").extract()
+		from scrapy.http.cookies import CookieJar
+		cookieJar = CookieJar()
+		cookieJar.extract_cookies(response,response.request)
+		print "======================================="
+		print cookieJar._cookies
+		print "======================================="
+		# print "=================================="
+		# print  response.headers
+		# print "=================================="
 
-		print "=================================="
-		print item['title']
-		print "=================================="
-		print item['readNum']
-		print "=================================="
-		print item['content']
-		print "=================================="
-		yield item
+		# item = Testdemo1Item()
+		# art =  response.xpath("//article")
+		# item['title'] = art.xpath("//h1/text()").extract()
+		# item['readNum'] = art.xpath("//button[@class='btn-noborder']/span/text()").extract()
+		# item['content'] = art.xpath("//div[@id='article_content']/div").extract()
+
+		# print "=================================="
+		# print item['title']
+		# print "=================================="
+		# print item['readNum']
+		# print "=================================="
+		# print item['content']
+		# print "=================================="
+		# yield item
 '''
     art.xpath("//button[@class='btn-noborder'"]/span/text()).extract()
 	art.xpath("//div[@id='article_content']/div").extract()
